@@ -1,231 +1,703 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXL BLOX</title>
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>AXL BLOX - iOS Glass Dark</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-* {margin:0; padding:0; box-sizing:border-box;}
-body {
-  font-family: "Cairo", sans-serif;
-  background: #050505;
-  color: #fff;
-  overflow: hidden;
-  perspective: 1500px;
-}
 
-/* الصفحة */
-.page {
-  position: absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  opacity:0;
-  transform: rotateY(90deg) translateZ(-200px);
-  transition: transform 1s cubic-bezier(0.77,0,0.175,1), opacity 1s ease;
-  overflow-y: auto;
-  padding: 40px 20px 40px 20px;
-}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"Cairo",sans-serif;}
 
-.page::-webkit-scrollbar {
-  width: 6px;
-}
-.page::-webkit-scrollbar-thumb {
-  background-color: #00bfff99;
-  border-radius: 3px;
-}
+  :root{
 
-.page.active {
-  opacity:1;
-  transform: rotateY(0deg) translateZ(0px);
-}
+    --accent:#0abfff;
 
-/* نصوص وعناوين */
-h1,h2 { color:#00bfff; margin-bottom:15px; }
-p { color:#ccc; font-size:16px; line-height:1.8; text-align:center; max-width:600px; margin-bottom:15px; }
+    --glass: rgba(255,255,255,0.05);
 
-img.logo {
-  width: 250px;
-  border-radius: 20px;
-  animation: float 4s ease-in-out infinite;
-  margin-bottom: 20px;
-}
+    --glass-strong: rgba(255,255,255,0.12);
 
-.update-box {
-  background-color: rgba(20,20,20,0.8);
-  border-radius:15px;
-  margin:15px 0;
-  padding:15px;
-  max-width:500px;
-  box-shadow: 0 5px 15px #00000050;
-  opacity:0;
-  transform: translateY(30px) rotateY(-15deg);
-  transition:1s ease;
-}
+    --dark-bg:#0a0a0a;
 
-.update-box.visible {
-  opacity:1;
-  transform: translateY(0) rotateY(0deg);
-}
+    --card-bg: rgba(20,20,25,0.6);
 
-.update-box img {
-  width:100%;
-  border-radius:10px;
-  margin-top:10px;
-}
+    --red: #ff3b3b;
 
-.time-btn {
-  background-color: #00bfff;
-  border:none;
-  border-radius:10px;
-  padding:7px 14px;
-  margin-top:10px;
-  color:white;
-  font-size:14px;
-  transition:0.3s;
-}
+    --text-light: #f0f0f0;
 
-.time-btn:hover { background-color:#0099cc; }
+    --text-muted: rgba(255,255,255,0.55);
 
-@keyframes float {
-  0%,100% { transform: translateY(0);}
-  50% { transform: translateY(-10px);}
-}
+    --badge-bg: rgba(0,0,0,0.55);
 
-/* أزرار glass mode */
-.glass-buttons {
-  display:flex;
-  justify-content: center;
-  gap:20px;
-  margin-bottom: 20px;
-  z-index: 20;
-}
+  }
 
-.glass-buttons button,
-.social-buttons a {
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 12px;
-  cursor:pointer;
-  transition:0.3s;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+  body{
 
-.glass-buttons button:hover,
-.social-buttons a:hover {
-  background: rgba(255,255,255,0.2);
-  transform: translateY(-2px);
-}
+    background: var(--dark-bg);
 
-/* أزرار السوشيال ميديا */
-.social-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
-}
+    color: var(--text-light);
 
-.social-buttons img {
-  width: 22px;
-  height: 22px;
-}
+    min-height: 100vh;
+
+    padding: 20px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    overflow-x:hidden;
+
+    transition: background 0.3s ease;
+
+  }
+
+  .container{
+
+    width:100%;
+
+    max-width:780px;
+
+    padding:16px;
+
+    backdrop-filter: blur(20px);
+
+  }
+
+  .logo{
+
+    width:150px;
+
+    border-radius:20px;
+
+    display:block;
+
+    margin:0 auto 12px auto;
+
+    animation: logoFloat 5s ease-in-out infinite;
+
+    box-shadow: 0 8px 28px rgba(0,0,0,0.7);
+
+  }
+
+  @keyframes logoFloat{
+
+    0%,100%{transform:translateY(0)}
+
+    50%{transform:translateY(-10px) rotate(-1deg)}
+
+  }
+
+  h1{
+
+    color: var(--accent);
+
+    text-align:center;
+
+    margin-bottom:8px;
+
+    font-size:32px;
+
+    text-shadow:0 2px 8px rgba(0,0,0,0.5);
+
+  }
+
+  p.lead{
+
+    color: var(--text-muted);
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    font-size:15px;
+
+    line-height:1.4;
+
+  }
+
+  .side-tabs{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:24px;
+
+  }
+
+  .side-tabs button{
+
+    backdrop-filter: blur(16px);
+
+    background: var(--glass);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    color: var(--text-light);
+
+    padding:12px 20px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition: transform .18s ease, box-shadow .18s ease, background .2s ease;
+
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+
+  }
+
+  .side-tabs button:hover{
+
+    transform: translateY(-4px);
+
+    box-shadow:0 12px 28px rgba(0,0,0,0.6);
+
+  }
+
+  .side-tabs button:active{
+
+    transform: translateY(-2px) scale(.98);
+
+  }
+
+  .page{display:none;opacity:0;transform:translateY(20px);transition:all .45s cubic-bezier(.2,.9,.3,1);}
+
+  .page.active{display:block;opacity:1;transform:translateY(0);}
+
+  .update-box, .leak-box{
+
+    background: var(--card-bg);
+
+    border-radius:20px;
+
+    padding:18px;
+
+    margin:16px 0;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(24px);
+
+    transition: transform .3s ease, box-shadow .3s ease, opacity .25s ease;
+
+    box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+
+  }
+
+  .update-box:hover, .leak-box:hover{
+
+    transform: translateY(-6px) scale(1.01);
+
+  }
+
+  .update-box img, .leak-box img{
+
+    width:100%;
+
+    border-radius:16px;
+
+    margin-top:12px;
+
+    display:block;
+
+    box-shadow: 0 8px 28px rgba(0,0,0,0.7);
+
+  }
+
+  .update-box h3, .leak-box h3{
+
+    color: var(--accent);
+
+    margin-bottom:10px;
+
+    text-align:center;
+
+    font-size:20px;
+
+  }
+
+  .update-box p, .leak-box p{
+
+    color: var(--text-light);
+
+    opacity:.95;
+
+    text-align:center;
+
+    margin-bottom:12px;
+
+    font-size:14px;
+
+  }
+
+  .btn-row{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    margin-top:6px;
+
+  }
+
+  .time-btn{
+
+    background: linear-gradient(180deg, rgba(10,191,255,0.12), rgba(10,191,255,0.05));
+
+    border:1px solid rgba(10,191,255,0.2);
+
+    color:#eaf6ff;
+
+    padding:10px 18px;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    font-size:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    box-shadow: 0 6px 20px rgba(0,191,255,0.08);
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition: all .15s ease;
+
+  }
+
+  .time-btn:hover{
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 26px rgba(0,191,255,0.12);
+
+  }
+
+  .time-btn:active{
+
+    transform: translateY(-1px) scale(.98);
+
+  }
+
+  .red-btn{
+
+    background: linear-gradient(180deg, rgba(255,59,59,0.95), rgba(255,42,42,0.95));
+
+    border: none;
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    font-size:15px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    box-shadow:0 10px 30px rgba(255,59,59,0.15);
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition: all .18s ease;
+
+  }
+
+  .red-btn:hover{
+
+    transform:translateY(-3px) scale(1.01);
+
+    box-shadow:0 16px 36px rgba(255,59,59,0.2);
+
+  }
+
+  .red-btn:active{
+
+    transform:translateY(-1px) scale(.98);
+
+  }
+
+  .red-btn::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:18px;
+
+    pointer-events:none;
+
+    box-shadow:0 0 0 0 rgba(255,59,59,0.15);
+
+    animation: pulseRed 2.6s infinite;
+
+    opacity:.9;
+
+  }
+
+  @keyframes pulseRed{
+
+    0%{box-shadow:0 0 0 0 rgba(255,59,59,0.08)}
+
+    70%{box-shadow:0 0 0 12px rgba(255,59,59,0)}
+
+    100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}
+
+  }
+
+  .time-badge{
+
+    background: rgba(255,255,255,0.08);
+
+    padding:5px 10px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    font-size:13px;
+
+  }
+
+  .time-btn:after, .red-btn:after{content:"";position:absolute;border-radius:50%;transform:scale(0);opacity:.25;pointer-events:none;}
+
+  .time-btn:active:after, .red-btn:active:after{animation: ripple 0.5s ease-out;}
+
+  @keyframes ripple{to{transform:scale(6);opacity:0;}}
+
+  .leak-img{
+
+    position:relative;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    margin-top:12px;
+
+  }
+
+  .leak-img img{
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+    filter: blur(6px) grayscale(.15) contrast(.95);
+
+    transform-origin:center;
+
+    transition: filter .35s ease, transform .45s ease;
+
+    will-change: filter, transform;
+
+  }
+
+  .leak-img:hover img{
+
+    filter: blur(0px) grayscale(0) contrast(1.02);
+
+    transform: scale(1.02);
+
+  }
+
+  .leak-badge{
+
+    position:absolute;
+
+    top:12px;
+
+    left:12px;
+
+    background: linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+
+    color:#fff;
+
+    padding:8px 12px;
+
+    border-radius:12px;
+
+    font-weight:800;
+
+    font-size:13px;
+
+    backdrop-filter: blur(8px);
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+
+  }
+
+  .leak-caption{
+
+    margin-top:10px;
+
+    text-align:center;
+
+    font-size:13px;
+
+    color:var(--text-muted);
+
+  }
+
+  @media (max-width:520px){
+
+    .time-btn, .red-btn{padding:8px 14px;font-size:14px;}
+
+    .container{padding:12px;}
+
+  }
+
 </style>
+
 </head>
+
 <body>
 
-<!-- الصفحة الرئيسية -->
-<div class="page active" id="home">
-  <img class="logo" src="https://i.ibb.co/9mDjsrRG/Picsart-25-11-01-10-18-14-336.png" alt="Logo">
+<div class="container">
+
+  <img class="logo" src="https://i.ibb.co/9mDjsrRG/Picsart-25-11-01-10-18-14-336.png" alt="AXL BLOX Logo">
+
   <h1>AXL BLOX 🎮</h1>
 
-  <!-- أزرار التنقل -->
-  <div class="glass-buttons">
+  <p class="lead">موقعنا يقدم لك تحديثات وتسريبات خاصة بماب "سرقة" — أخبار أولاً بأول، مواعيد التحديثات، وتحليلات مميزة مخصصة للاعبين في المنطقة.</p>
+
+  <div class="side-tabs">
+
     <button onclick="switchPage('home')">🏠 المنزل</button>
+
     <button onclick="switchPage('updates')">🧠 التحديثات</button>
+
+    <button onclick="switchPage('leaks')">💣 التسريبات</button>
+
   </div>
 
-  <p>
-    ✨ مرحباً بك في الموقع الرسمي<br>
-    🧩 تابع الأخبار والتحديثات<br>
-    ⚡ استخدم الأزرار أعلاه للتنقل بين الصفحات
-  </p>
+  <!-- الصفحة الرئيسية -->
 
-  <!-- أزرار TikTok و Telegram -->
-  <div class="social-buttons">
-    <a href="https://www.tiktok.com/@axl13530?_r=1&_t=ZS-916AUmZRtUP" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/3046/3046125.png" alt="TikTok"> TikTok
-    </a>
-    <a href="https://t.me/axlblox" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"> Telegram
-    </a>
+  <div class="page active" id="home">
+
+    <h2 style="text-align:center;color:var(--accent)">مرحباً في AXL BLOX</h2>
+
+    <p style="text-align:center;color:var(--text-muted)">استخدم الأزرار أعلاه للتنقل بين الصفحات. التحديثات تظهر توقيت الشرق الأوسط ليلاً.</p>
+
+    <div style="display:flex;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap">
+
+      <a href="https://www.tiktok.com/@axl13530?_r=1&_t=ZS-916AUmZRtUP" target="_blank" style="text-decoration:none">
+
+        <div style="background:var(--glass);padding:10px 14px;border-radius:16px;border:1px solid rgba(255,255,255,255,0.04);display:flex;align-items:center;gap:8px">
+
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046125.png" style="width:20px;height:20px">
+
+          TikTok
+
+        </div>
+
+      </a>
+
+      <a href="https://t.me/axlblox" target="_blank" style="text-decoration:none">
+
+        <div style="background:var(--glass);padding:10px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:8px">
+
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" style="width:20px;height:20px">
+
+          Telegram
+
+        </div>
+
+      </a>
+
+    </div>
+
   </div>
-</div>
 
-<!-- صفحة التحديثات -->
-<div class="page" id="updates">
-  <h2>📅 آخر التحديثات</h2>
+  <!-- صفحة التحديثات -->
 
-  <!-- أزرار التنقل -->
-  <div class="glass-buttons">
-    <button onclick="switchPage('home')">🏠 المنزل</button>
-    <button onclick="switchPage('updates')">🧠 التحديثات</button>
+  <div class="page" id="updates">
+
+    <h2 style="text-align:center;color:var(--accent)">📅 آخر التحديثات</h2>
+
+    
+
+    <div class="update-box">
+
+      <h3>⚡ تحديث السبت | قريباً</h3>
+
+      <img src="https://tr.rbxcdn.com/180DAY-4d3115cbe37d3e428a43b6d16b85bbf9/768/432/Image/Webp/noFilter" alt="Update image">
+
+      <p>🕒 هذا التحديث مقرر ليلاً — التوقيت المحدد موجود بالأسفل.</p>
+
+      <div class="btn-row">
+
+        <button class="time-btn" onclick="showNote('تحديث السبت الساعة 10:00 ليلاً - شرق الأوسط')">
+
+          <span class="time-badge">⏰ 10:00</span>
+
+          <span style="opacity:.85">ليلاً</span>
+
+        </button>
+
+        <button class="red-btn" onclick="showNote('هذا التحديث مخصص فقط لتوقيت شرق الأوسط')">فقط شرق الأوسط</button>
+
+      </div>
+
+    </div>
+
+    <div class="update-box">
+
+      <h3>🌮 تحديث تاكو الثلاثاء</h3>
+
+      <img src="https://techwiser.com/wp-content/uploads/2025/08/Who-Won-the-Grow-a-Garden-and-Steal-a-Brainrot-War-Recap.webp" alt="Taco update">
+
+      <p>⚙️ تحسينات على عناصر الشخصية — وقت الإطلاق ليلاً.</p>
+
+      <div class="btn-row">
+
+        <button class="time-btn" onclick="showNote('تحديث تاكو الساعة 2:00 ليلاً - شرق الأوسط')">
+
+          <span class="time-badge">⏰ 2:00</span>
+
+          <span style="opacity:.85">ليلاً</span>
+
+        </button>
+
+        <button class="red-btn" onclick="showNote('تحديث تاكو يعمل فقط بتوقيت شرق الأوسط')">فقط شرق الأوسط</button>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="update-box">
-    <h3>⚡ تحديث السبت | قريباً</h3>
-    <img src="https://tr.rbxcdn.com/180DAY-4d3115cbe37d3e428a43b6d16b85bbf9/768/432/Image/Webp/noFilter" alt="Update">
-    <p>🕒 الوقت والإصدار غير معروف</p>
-    <button class="time-btn">⏰ الوقت: غير معروف</button>
-  </div>
+  <!-- صفحة التسريبات -->
 
-  <div class="update-box">
-    <h3>🌮 تحديث تاكو الثلاثاء</h3>
-    <img src="https://techwiser.com/wp-content/uploads/2025/08/Who-Won-the-Grow-a-Garden-and-Steal-a-Brainrot-War-Recap.webp" alt="Taco Update">
-    <p>⚙️ لتحسين عناصر شخصيتك وتطويرها</p>
-    <button class="time-btn">🕐 الوقت: 2:00 ليلاً</button>
+  <div class="page" id="leaks">
+
+    <h2 style="text-align:center;color:var(--accent)">🕵️‍♂️ آخر التسريبات</h2>
+
+    <div class="leak-box">
+
+      <h3>💰 تكت إضافة لوس موني موني باك</h3>
+
+      <div class="leak-img" role="img" aria-label="صورة تسريب - لوس موني موني">
+
+        <span class="leak-badge">تسريب</span>
+
+        <img src="https://cdn.discordapp.com/attachments/1376019152103280751/1435677088484163584/image.png?ex=690d7ebb&is=690c2d3b&hm=e61797565e6c65d4cc25f8ff13039f276a91f8bfcce5083b032b23dc1a3bbe46&">
+
+      </div>
+
+      <p class="leak-caption">🔥 تسريب جديد يخص الإضافة القادمة—انقر أو مرر للفحص السريع. توقيت النشر: ليلي (شرق الأوسط).</p>
+
+      <div style="display:flex;justify-content:center;margin-top:8px">
+
+        <button class="time-btn" onclick="showNote('تسريب: إصدار محتمل - متابعة للتأكيد')">⏰ ليلي</button>
+
+      </div>
+
+    </div>
+
   </div>
 
 </div>
 
 <script>
+
 const pages = {
+
   home: document.getElementById('home'),
-  updates: document.getElementById('updates')
+
+  updates: document.getElementById('updates'),
+
+  leaks: document.getElementById('leaks')
+
 };
 
-const updatesBoxes = document.querySelectorAll('.update-box');
-
 function switchPage(id){
-  Object.values(pages).forEach(p=>{
-    p.classList.remove('active');
-  });
+
+  Object.values(pages).forEach(p => p.classList.remove('active'));
+
   pages[id].classList.add('active');
 
-  // اظهار التحديثات مع انيميشن
-  if(id==='updates'){
-    updatesBoxes.forEach(b=>b.classList.remove('visible'));
-    setTimeout(()=>{
-      updatesBoxes.forEach((b,i)=>{
-        setTimeout(()=>b.classList.add('visible'), i*300);
-      });
-    },300);
-  }
+  setTimeout(()=> pages[id].scrollIntoView({behavior:'smooth', block:'start'}), 80);
+
 }
+
+function showNote(text){
+
+  const existing = document.getElementById('axl-toast'); 
+
+  if(existing) existing.remove();  
+
+  const t = document.createElement('div');
+
+  t.id = 'axl-toast';
+
+  t.textContent = text;
+
+  Object.assign(t.style,{
+
+    position:'fixed', right:'20px', bottom:'20px', padding:'12px 18px',
+
+    background:'rgba(0,0,0,0.75)', color:'#fff', borderRadius:'12px',
+
+    border:'1px solid rgba(255,255,255,0.08)', zIndex:9999, boxShadow:'0 12px 36px rgba(0,0,0,0.6)', fontWeight:700
+
+  });
+
+  document.body.appendChild(t);
+
+  setTimeout(()=>{t.style.transition='transform .35s ease, opacity .35s ease'; t.style.transform='translateY(6px)';},40);
+
+  setTimeout(()=> t.remove(),2800);
+
+}
+
 </script>
 
 </body>
-</html>
+
+                                                                                                                          </html>
